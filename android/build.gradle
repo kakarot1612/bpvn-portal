@@ -1,0 +1,34 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+subprojects {
+    plugins.withId("com.android.library") {
+        android {
+            ndkVersion "25.1.8937393"
+        }
+    }
+    plugins.withId("com.android.application") {
+        android {
+            ndkVersion "25.1.8937393"
+        }
+    }
+    tasks.withType(com.android.build.gradle.internal.tasks.CheckAarMetadataTask).configureEach {
+        enabled = false
+    }
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

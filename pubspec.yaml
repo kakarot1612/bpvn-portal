@@ -1,0 +1,40 @@
+name: bpvn_portal
+description: "BPVN Portal - Enterprise Mobile App for Best Pacific Vietnam"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  # Networking & HTTP
+  http: ^1.2.1
+  connectivity_plus: ^6.0.3
+  
+  # WebView for Internal Web Apps
+  flutter_inappwebview: ^6.0.0
+  
+  # Biometrics & Secure Storage
+  local_auth: ^2.2.0
+  flutter_secure_storage: ^9.2.2
+  
+  # UI & Animations
+  google_fonts: ^6.2.1
+  lucide_icons_flutter: ^1.1.0
+  url_launcher: ^6.3.0
+  flutter_spinkit: ^5.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
