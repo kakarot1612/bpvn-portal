@@ -208,8 +208,10 @@ function seedInitialData() {
   const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
   if (userCount === 0) {
     const salt = bcrypt.genSaltSync(10);
-    const adminPassHash = bcrypt.hashSync('Admin@123456', salt);
-    const userPassHash = bcrypt.hashSync('Password123!', salt);
+    const initialAdminPass = process.env.INITIAL_ADMIN_PASSWORD || 'ChangeMeImmediately@2026';
+    const adminPassHash = bcrypt.hashSync(initialAdminPass, salt);
+    const initialUserPass = process.env.INITIAL_USER_PASSWORD || 'ChangeMeImmediately@2026';
+    const userPassHash = bcrypt.hashSync(initialUserPass, salt);
 
     const insertUser = db.prepare(`
       INSERT INTO users (username, password_hash, full_name, department, email, role, is_active)
@@ -217,10 +219,10 @@ function seedInitialData() {
     `);
 
     const defaultUsers = [
-      ['admin', adminPassHash, 'Administrator (Quản trị hệ thống)', 'IT Department', 'admin@bestpacific.vn', 'SUPER_ADMIN', 1],
-      ['kien.tt', userPassHash, 'Trần Trung Kiên', 'IT Department', 'V240822@bestpacific.vn', 'IT_ADMIN', 1],
-      ['lan.nt', userPassHash, 'Nguyễn Thị Lan', 'Human Resources', 'lan.nt@bestpacific.vn', 'USER', 1],
-      ['minh.nv', userPassHash, 'Nguyễn Văn Minh', 'Production Dept', 'minh.nv@bestpacific.vn', 'USER', 1],
+      ['admin', adminPassHash, 'Super Administrator', 'IT System', 'admin@bestpacific.vn', 'SUPER_ADMIN', 1],
+      ['it_admin', userPassHash, 'IT Administrator', 'IT Infrastructure', 'it_admin@bestpacific.vn', 'IT_ADMIN', 1],
+      ['hr_user', userPassHash, 'HR Officer', 'Human Resources', 'hr_user@bestpacific.vn', 'USER', 1],
+      ['prod_user', userPassHash, 'Production Supervisor', 'Production Dept', 'prod_user@bestpacific.vn', 'USER', 1],
     ];
 
     const insertManyUsers = db.transaction((users) => {
@@ -242,7 +244,7 @@ function seedInitialData() {
       ['company_name', 'Best Pacific Vietnam', 'Tên công ty'],
       ['min_app_version', '1.0.0', 'Phiên bản APK tối thiểu yêu cầu'],
       ['latest_app_version', '1.0.0+1', 'Phiên bản APK mới nhất hiện có'],
-      ['apk_download_url', 'http://10.0.55.240:8088/downloads/app-release.apk', 'Link tải APK mới nhất'],
+      ['apk_download_url', '/downloads/app-release.apk', 'Link tải APK mới nhất'],
       ['force_update', '0', 'Bắt buộc cập nhật phiên bản mới (1: Có, 0: Không)'],
       ['maintenance_mode', '0', 'Chế độ bảo trì hệ thống (1: Bật, 0: Tắt)'],
       ['maintenance_message', 'Hệ thống Cổng thông tin BPVN đang được nâng cấp định kỳ.', 'Thông báo bảo trì'],
