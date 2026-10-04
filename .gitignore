@@ -52,3 +52,11 @@ android/.gradle/
 .gradle/
 local.properties
 
+
+# Node.js Backend & Admin
+node_modules/
+admin-backend/node_modules/
+admin-backend/data/*.db
+admin-backend/data/*.db-wal
+admin-backend/data/*.db-shm
+
